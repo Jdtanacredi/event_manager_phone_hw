@@ -37,13 +37,45 @@ contents.each do |row|
 end
 
 end
+#def print_numbers
+# @file.each do |line|
+ # clean_phonenumber = clean_phonenumbers(line[:homephone])
+  #puts clean_phonenumber
+ #end
 
-def print_numbers
- @file.each do |line|
-  clean_number = clean_numbers(line[:homephone])
-  puts clean_number
+ #FIGURE OUT HOW TO GET THIS WORKING!!
+# def peak_hours
+# time = row[:regdate]
+# hr_array = []
+# time.each { |t|
+ #        array << DateTime.strptime(t, '%m/%d/%Y %H:%M').hour }
+ #array
+ #end
+
+#USE THIS? hour = Date.strptime(hour, '%H:%M')
+
+ def best_hour #rank_times
+  hours = Array.new(24) {0}
+  @file.each do |line|
+   timestamp = line[:regdate]
+   hour = timestamp.split(" ")
+   hour = hour[1].split(":")
+   hour = hour[0].split.join
+   hours[hour.to_i] += 1
+  end
+  hours.each_with_index {|counter, hours| puts "#{hours}\t#{counter}"}
  end
 
-
-
+ def best_day #day_stat
+  days = Array.new(7) {0}
+  @file.each do |line|
+   date_stamp = line[:regdate]
+   date = date_stamp.split(" ")
+   date = date[0].split.join
+   date = Date.strptime(date, "%m/%d/%y")
+   day = date.wday
+   days[day] = days[day] + 1
+  end
+  days.each_with_index {|counter, day| puts "#{day}\t#{counter}"}
+ end
 
